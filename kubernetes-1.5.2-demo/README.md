@@ -4,7 +4,7 @@
 
 ## 安装必要软件
 - 1、VirtualBox 链接：http://pan.baidu.com/s/1bSUAYi
-- 2、Centos7 虚拟机镜像 链接：http://pan.baidu.com/s/1i4TwwwH
+- 2、CentOS7 虚拟机镜像（CentOS Linux release 7.4.1708 (Core)） 链接：http://pan.baidu.com/s/1i4TwwwH
 - 3、Xshell 链接：http://pan.baidu.com/s/1gfzUx83
 - 4、kubernetes-1.5.2.rpm.tar.gz 链接：http://pan.baidu.com/s/1miva1bM
 - 5、yaml-example 链接：http://pan.baidu.com/s/1ge2wdTT
