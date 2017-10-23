@@ -29,8 +29,7 @@ echo "192.168.204.131 centos-master" >> /etc/hosts
 ```
 
 ### 修改 /etc/etcd/etcd.conf 配置文件
-```vi /etc/etcd/etcd.conf```
-找到
+```vi /etc/etcd/etcd.conf```找到
 ```
 # [member]
 ETCD_LISTEN_CLIENT_URLS="http://localhost:2379"
@@ -53,8 +52,7 @@ ETCD_ADVERTISE_CLIENT_URLS="http://0.0.0.0:2379"
 最后保存退出编辑
 
 ### 修改 /etc/sysconfig/flanneld 配置文件
-```vi /etc/sysconfig/flanneld```
-找到
+```vi /etc/sysconfig/flanneld```找到
 ```
 FLANNEL_ETCD_ENDPOINTS="http://127.0.0.1:2379"
 ```
@@ -73,8 +71,7 @@ FLANNEL_ETCD_PREFIX="/kube-centos/network"
 最后保存退出编辑
 
 ### 修改 /etc/kubernetes/config 配置文件
-```vi /etc/kubernetes/config```
-找到
+```vi /etc/kubernetes/config```找到
 ```
 KUBE_MASTER="--master=http://127.0.0.1:8080"
 ```
@@ -85,8 +82,7 @@ KUBE_MASTER="--master=http://centos-master:8080"
 最后保存退出编辑
 
 ### 修改 /etc/kubernetes/apiserver 配置文件
-```vi /etc/kubernetes/apiserver```
-找到
+```vi /etc/kubernetes/apiserver```找到
 ```
 KUBE_API_ADDRESS="--insecure-bind-address=127.0.0.1"
 ```
@@ -113,8 +109,7 @@ KUBE_ADMISSION_CONTROL="--admission-control=NamespaceLifecycle,NamespaceExists,L
 最后保存退出编辑
 
 ### 修改 /etc/kubernetes/kubelet 配置文件
-```vi /etc/kubernetes/kubelet```
-找到
+```vi /etc/kubernetes/kubelet```找到
 ```
 KUBELET_ADDRESS="--address=127.0.0.1"
 ```
@@ -170,8 +165,7 @@ done
 ```
 
 ## 检查 k8s 是否安装正确
-执行
-```ip a```
+执行```ip a```
 观察 flannel.1 和 docker0 两个网卡的 ip 地址是否在同一个地址段，如果不是的话，检查 /etc/sysconfig/flanneld 配置文件是否有误，然后执行 ```systemctl restart flanneld docker``` 重启 flanneld 和 docker。
 示例如下：
 ```
@@ -197,37 +191,28 @@ centos-master   Ready     3m
 
 ## 跑一个例子 nginx
 进入前面下载的 yaml-example 目录
-```cd yaml-example```
-执行下面命令创建 k8s 的 RC
-```kubectl create -f nginx_rc.yaml```
-这个时候后台会执行 rc 的创建，其中会拉取 nginx 镜像，根据网络情况可能时间会很长甚至失败，可以修改 nginx_rc.yaml 文件的镜像再测试--如果会的话。
-执行
-```kubectl get rc```
-查看 rc 的创建情况
-执行
-```kubectl get po -o wide```
-查看 pod 的创建情况
-如果输出结果如下（状态为 Running）
+```cd yaml-example```，执行下面命令创建 k8s 的 RC
+```kubectl create -f nginx_rc.yaml```这个时候后台会执行 rc 的创建，其中会拉取 nginx 镜像，根据网络情况可能时间会很长甚至失败，可以修改 nginx_rc.yaml 文件的镜像再测试--如果会的话。执行
+```kubectl get rc```，查看 rc 的创建情况，执行
+```kubectl get po -o wide```，查看 pod 的创建情况，如果输出结果如下（状态为 Running）
 ```
 NAME          READY     STATUS    RESTARTS   AGE       IP           NODE
 nginx-7zqmh   1/1       Running   1          15m       172.30.2.2   centos-master
 nginx-phpqp   1/1       Running   1          15m       172.30.2.3   centos-master
 ```
-说明 rc 和 pod 都创建成功
-执行
-```kubectl create -f nginx_svc.yaml```
-创建 k8s 的 service
-执行
-```kubectl get svc```
-查看 svc 的创建情况，如下面所示
+说明 rc 和 pod 都创建成功，执行```kubectl create -f nginx_svc.yaml```，创建 k8s 的 service，执行
+```kubectl get svc```，查看 svc 的创建情况，如下面所示
 ```
 NAME           CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
 kubernetes     10.254.0.1     <none>        443/TCP    29m
 nginxservice   10.254.16.93   <none>        8000/TCP   47s
 ```
-执行测试
-```curl 10.254.16.93:8000```
-输出 Nginx 的欢迎页面的 html 则说明 k8s 安装一切顺利！
+执行测试```curl 10.254.16.93:8000```，输出 Nginx 的欢迎页面的 html 则说明 k8s 安装一切顺利！
 
 ## 接下来可以在这个服务器里面学习  Docker 和 kubernetes 了。
 如果自己搭建不出来，可以直接下载我根据本文档搭建的一套 kubernetes 环境的虚拟机镜像，然后导入 VirtualBox 启动，开箱即用。如果把这个导进的虚拟机多复制几个，稍微配置一下即可组建 k8s 集群！链接：http://pan.baidu.com/s/1o7IwLKI
+
+## 参考资料
+> Kubernetes中文指南/实践手册 https://jimmysong.io/kubernetes-handbook/
+
+
