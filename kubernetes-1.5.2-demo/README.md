@@ -210,7 +210,15 @@ nginxservice   10.254.16.93   <none>        8000/TCP   47s
 执行测试```curl 10.254.16.93:8000```，输出 Nginx 的欢迎页面的 html 则说明 k8s 安装一切顺利！
 
 ## 接下来可以在这个服务器里面学习  Docker 和 kubernetes 了。
-如果自己搭建不出来，可以直接下载我根据本文档搭建的一套 kubernetes 环境的虚拟机镜像，然后导入 VirtualBox 启动，开箱即用。如果把这个导进的虚拟机多复制几个，稍微配置一下即可组建 k8s 集群！链接：http://pan.baidu.com/s/1o7IwLKI
+如果自己搭建不出来，可以直接下载我根据本文档搭建的一套 kubernetes 环境的虚拟机镜像，然后导入 VirtualBox 启动，开箱即用，**注意**修改 /etc/hosts centos-master 对应的 ip 地址，否则 k8s 无法正常启动，修改后再重启 k8s 整套服务
+```
+for SERVICES in etcd kube-apiserver kube-controller-manager kube-scheduler flanneld kube-proxy kubelet docker; do
+    systemctl restart $SERVICES
+    systemctl enable $SERVICES
+    systemctl status $SERVICES
+done
+```
+如果把这个导进的虚拟机多复制几个，稍微配置一下即可组建 k8s 多机器集群！链接：http://pan.baidu.com/s/1o7IwLKI
 
 ## 参考资料
 > Kubernetes中文指南/实践手册 https://jimmysong.io/kubernetes-handbook/
