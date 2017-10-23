@@ -7,7 +7,7 @@
 - 2、CentOS7 虚拟机镜像（CentOS Linux release 7.4.1708 (Core)） 链接：http://pan.baidu.com/s/1i4TwwwH
 - 3、Xshell 链接：http://pan.baidu.com/s/1gfzUx83
 - 4、kubernetes-1.5.2.rpm.tar.gz 链接：http://pan.baidu.com/s/1miva1bM
-- 5、yaml-example 链接：http://pan.baidu.com/s/1ge2wdTT
+- 5、yaml-example 链接：http://pan.baidu.com/s/1dFix589
 
 安装启动 VirtualBox，导入 Centos7 虚拟机镜像，注意配置导入的虚拟机的“网络”，启动 Centos7 虚拟机（后面用“服务器”代称），默认登陆用户名/密码为 root/root，通过命令 ip a 查看虚拟机的 IP 地址，用 Xshell 登陆服务器。全程使用 root 用户操作。
 
