@@ -8,6 +8,7 @@
 - 3、Xshell 链接：http://pan.baidu.com/s/1gfzUx83
 - 4、kubernetes-1.5.2.rpm.tar.gz 链接：http://pan.baidu.com/s/1miva1bM
 - 5、yaml-example 链接：http://pan.baidu.com/s/1dFix589
+- 6、搭建好了的 VirtualBox 镜像（可以直接使用，可以不下载） 链接：http://pan.baidu.com/s/1o7IwLKI
 
 安装启动 VirtualBox，导入 Centos7 虚拟机镜像，注意配置导入的虚拟机的“网络”，启动 Centos7 虚拟机（后面用“服务器”代称），默认登陆用户名/密码为 root/root，通过命令 ip a 查看虚拟机的 IP 地址，用 Xshell 登陆服务器。全程使用 root 用户操作。
 
@@ -210,7 +211,7 @@ nginxservice   10.254.16.93   <none>        8000/TCP   47s
 执行测试```curl 10.254.16.93:8000```，输出 Nginx 的欢迎页面的 html 则说明 k8s 安装一切顺利！
 
 ## 接下来可以在这个服务器里面学习  Docker 和 kubernetes 了。
-如果自己搭建不出来，可以直接下载我根据本文档搭建的一套 kubernetes 环境的虚拟机镜像，然后导入 VirtualBox 启动，开箱即用，**注意**修改 /etc/hosts centos-master 对应的 ip 地址，否则 k8s 无法正常启动，修改后再重启 k8s 整套服务
+如果自己搭建不出来，可以直接下载我根据本文档搭建的一套 kubernetes 环境的虚拟机镜像，链接：http://pan.baidu.com/s/1o7IwLKI，然后导入 VirtualBox 启动，开箱即用，**注意** 修改 /etc/hosts 配置文件 centos-master 对应的 ip 地址，否则 k8s 无法正常启动，修改后再重启 k8s 整套服务
 ```
 for SERVICES in etcd kube-apiserver kube-controller-manager kube-scheduler flanneld kube-proxy kubelet docker; do
     systemctl restart $SERVICES
@@ -218,7 +219,7 @@ for SERVICES in etcd kube-apiserver kube-controller-manager kube-scheduler flann
     systemctl status $SERVICES
 done
 ```
-如果把这个导进的虚拟机多复制几个，稍微配置一下即可组建 k8s 多机器集群！链接：http://pan.baidu.com/s/1o7IwLKI
+如果把这个导进的虚拟机多复制几个，稍微配置一下即可组建 k8s 多机器集群！
 
 ## 参考资料
 > Kubernetes中文指南/实践手册 https://jimmysong.io/kubernetes-handbook/
