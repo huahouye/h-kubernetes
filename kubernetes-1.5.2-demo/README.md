@@ -12,6 +12,18 @@
 
 安装启动 VirtualBox，导入 Centos7 虚拟机镜像，注意配置导入的虚拟机的“网络”，启动 Centos7 虚拟机（后面用“服务器”代称），默认登陆用户名/密码为 root/root，通过命令 ip a 查看虚拟机的 IP 地址，用 Xshell 登陆服务器。全程使用 root 用户操作。
 
+## 关闭 selinux 和防火墙
+执行
+```
+setenforce 0 && \
+systemctl disable firewalld && \
+systemctl stop firewalld
+```
+```
+vi /etc/selinux/config
+SELINUX=disabled
+```
+
 ## 用 Xftp 上传 kubernetes-1.5.2.rpm.tar.gz 到服务器上
 然后执行如下命令：
 ```
@@ -30,6 +42,7 @@ echo "192.168.204.131 centos-master" >> /etc/hosts
 ```
 
 ### 修改 /etc/etcd/etcd.conf 配置文件
+```cp /etc/etcd/etcd.conf /etc/etcd/etcd.conf.bak```备份配置文件
 ```vi /etc/etcd/etcd.conf```找到
 ```
 # [member]
@@ -53,6 +66,7 @@ ETCD_ADVERTISE_CLIENT_URLS="http://0.0.0.0:2379"
 最后保存退出编辑
 
 ### 修改 /etc/sysconfig/flanneld 配置文件
+```cp /etc/sysconfig/flanneld /etc/sysconfig/flanneld.bak```备份配置文件
 ```vi /etc/sysconfig/flanneld```找到
 ```
 FLANNEL_ETCD_ENDPOINTS="http://127.0.0.1:2379"
@@ -70,6 +84,9 @@ FLANNEL_ETCD_PREFIX="/atomic.io/network"
 FLANNEL_ETCD_PREFIX="/kube-centos/network"
 ```
 最后保存退出编辑
+
+### 先备份 /etc/kubernetes 配置文件
+```cp -r /etc/kubernetes /etc/kubernetes.bak```备份配置文件
 
 ### 修改 /etc/kubernetes/config 配置文件
 ```vi /etc/kubernetes/config```找到
@@ -135,18 +152,6 @@ KUBELET_API_SERVER="--api-servers=http://127.0.0.1:8080"
 KUBELET_API_SERVER="--api-servers=http://centos-master:8080"
 ```
 最后保存退出编辑
-
-## 关闭 selinux 和防火墙
-执行
-```
-setenforce 0 && \
-systemctl disable firewalld && \
-systemctl stop firewalld
-```
-```
-vi /etc/selinux/config
-SELINUX=disable
-```
 
 ## 初始化 etcd
 执行
