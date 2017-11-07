@@ -1,0 +1,10 @@
+version: '2.0'
+services:
+  web:
+    build: .
+    ports:
+     - "3000:5000"
+     # volumes:
+     # - .:/code
+  redis:
+    image: "redis:alpine"
